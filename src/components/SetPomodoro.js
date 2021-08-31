@@ -1,17 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Buttons from "./Buttons";
 import { useState } from "react";
 import { SettingContext } from "../context/SettingsContext";
 const SetPomodoro = () => {
-  const [newTimer, setNewTimer] = useState({
-    // work: 0.3,
-    // short: 0.1,
-    // long: 0.2,
-    active: "work",
-  });
-  const [work, setWork] = useState(newTimer.work);
-  const [short, setShort] = useState(newTimer.short);
-  const [long, setLong] = useState(newTimer.long);
+  let timerobj = localStorage.getItem("timers");
+  if (timerobj !== null) {
+    timerobj = JSON.parse(timerobj);
+  }
+
+  const [newTimer, setNewTimer] = useState(
+    timerobj !== null
+      ? timerobj
+      : { work: 0.3, short: 0.1, long: 0.2, active: "work" }
+  );
+  const [work, setWork] = useState(0.3);
+  const [short, setShort] = useState(0.1);
+  const [long, setLong] = useState(0.2);
 
   const { updateExecute } = useContext(SettingContext);
 
@@ -19,33 +23,44 @@ const SetPomodoro = () => {
     const { name, value } = input.target;
     switch (name) {
       case "work":
-        setWork(input.target.value);
+        // let mins = value / 60;
+        // let secs = value % 60;
+        // let sent = `${value} => ${mins} min and ${secs} seconds`;
+        setWork(value);
         setNewTimer({
           ...newTimer,
-          work: parseInt(value),
+          work: parseFloat(value),
+          // active: "work",
         });
         break;
-      case "shortBreak":
+      case "short":
         setShort(input.target.value);
         setNewTimer({
-          short: parseInt(value),
           ...newTimer,
+          short: parseFloat(value),
         });
         break;
-      case "longBreak":
+      case "long":
         setLong(input.target.value);
         setNewTimer({
-          long: parseInt(value),
           ...newTimer,
+          long: parseFloat(value),
         });
         break;
       default:
         break;
     }
   };
+  useEffect(() => {
+    localStorage.setItem("timers", JSON.stringify(newTimer));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newTimer, short, long, work]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    localStorage.setItem("timers", JSON.stringify(newTimer));
+    // console.log("NEwtimer ");
+    // console.log(newTimer);
+    setNewTimer({ ...newTimer, long, short, work });
     updateExecute(newTimer);
   };
   return (
@@ -53,19 +68,53 @@ const SetPomodoro = () => {
       <form noValidate>
         <div className="input-wrapper">
           <h3>Make Necessary Changes here. </h3>
-          <label className="input">
+          <label htmlFor="work" className="input">
             Working Time:
-            <input name="work" onChange={handleChange} value={work} />
+            <input
+              name="work"
+              id="work"
+              placeholder="value in minutes"
+              onChange={handleChange}
+              value={isNaN(newTimer.work) ? 0 : newTimer.work}
+              className={`${isNaN(newTimer.work) ? "red" : ""}`}
+            />
+            Minutes
           </label>
-          <label className="input">
+          <label htmlFor="short" className="input">
             Shortbreak Time:
-            <input name="shortBreak" onChange={handleChange} value={short} />
+            <input
+              name="short"
+              id="short"
+              placeholder="value in minutes"
+              onChange={handleChange}
+              value={isNaN(newTimer.short) ? 0 : newTimer.short}
+              className={`${isNaN(newTimer.short) ? "red" : ""}`}
+            />
+            Minutes
           </label>
-          <label className="input">
+          <label htmlFor="long" className="input">
             Longbreak time:
-            <input name="longBreak" onChange={handleChange} value={long} />
+            <input
+              name="long"
+              id="long"
+              placeholder="value in minutes"
+              onChange={handleChange}
+              value={isNaN(newTimer.long) ? 0 : newTimer.long}
+              className={`${isNaN(newTimer.long) ? "red" : ""}`}
+            />
+            Minutes
           </label>
-          <Buttons title="Set Timer" _callback={handleSubmit} />
+          <Buttons
+            title="Set Timer"
+            activeClass={`${
+              isNaN(newTimer.long) ||
+              isNaN(newTimer.short) ||
+              isNaN(newTimer.work)
+                ? "redb"
+                : ""
+            }`}
+            _callback={handleSubmit}
+          />
         </div>
       </form>
     </div>

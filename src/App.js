@@ -15,14 +15,12 @@ function App() {
     startTimer,
     pauseTimer,
     updateExecute,
-
     shorts,
     longs,
   } = useContext(SettingContext);
 
   useEffect(() => {
     updateExecute(executing);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [executing, startAnimate]);
 
@@ -34,7 +32,7 @@ function App() {
     <div className="container">
       <h1>pomodoro</h1>
       <small>Be productive the right way.</small>
-      {console.log("po" + pomodoro)}
+      {console.log("po " + pomodoro)}
       {pomodoro === 0 ? (
         <SetPomodoro />
       ) : (
@@ -66,7 +64,7 @@ function App() {
           <div className="time-container">
             <div className="time-wrapper">
               <CoundownAnimation
-                key={pomodoro}
+                key1={pomodoro}
                 timer={pomodoro}
                 animate={startAnimate}
               >

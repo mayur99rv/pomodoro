@@ -58,8 +58,8 @@ code {
   height: 15rem;
   width: 15rem;
   border-radius: 7.5rem;
-  color:#efefef;
-  background: #151932;
+  color:#fffefe;
+  background: #2b2946;
   font-size: 3.5rem;
   box-shadow: 1rem 1.5rem 2rem rgba(0,0,0,0.6)
 }
@@ -77,7 +77,7 @@ button {
   padding: 0.5rem 1.2rem;
   border:none;
   border-radius:3rem;
-  margin:0.2rem;;
+  margin: 0.5rem 0.2rem 0.5rem 0.2rem;
   background:#0C0E1B;
   min-width: 80px;
   cursor: pointer;
@@ -122,7 +122,7 @@ button {
   padding: 1rem 1.5rem;
   margin: 1rem;
   background-color: #292e49;
-  color:#C9CCEA;
+  color:#e9eaf7;
   border: none;
   border-radius: 5%;
   margin-right: 0.3rem;
@@ -132,10 +132,29 @@ button {
 
 .input-wrapper label input {
   border: none;
+  padding: 0.5rem 0.5rem ;
+  border-radius: 50px;
   text-align: center;
-  max-width: 50px;
+  max-width: 120px;
   margin: 0.5rem;
-  background-color: #343c6e;
-  font-size: 14pt;
-  color:#C9CCEA;
+  font-weight: 600;
+  background-color: #cccccc;
+  font-size: 12pt;
+  color:#1a1a1ae3;
+}
+
+.input-wrapper label input.red{
+  border: 2px solid red;
+  background-color: rgb(230, 52, 52);
+  color: rgb(248, 243, 243);
+}
+.redb{
+  border: 2px solid red;
+  background-color: rgb(230, 52, 52);
+  color: rgb(248, 243, 243);
+}
+
+.input-wrapper label ::-webkit-input-placeholder{
+  color: #0a0a0a91;
+  font-weight: 500;
 }

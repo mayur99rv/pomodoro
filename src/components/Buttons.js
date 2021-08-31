@@ -3,7 +3,11 @@ import React from "react";
 const Buttons = ({ title, activeClass, _callback }) => {
   return (
     <div>
-      <button className={activeClass} onClick={_callback}>
+      <button
+        className={activeClass}
+        disabled={activeClass !== "redb" ? false : true}
+        onClick={_callback}
+      >
         {title}
       </button>
     </div>
