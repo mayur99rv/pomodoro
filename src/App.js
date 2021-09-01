@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Buttons from "./components/Buttons";
 import CoundownAnimation from "./components/CountdownAnimation";
 import SetPomodoro from "./components/SetPomodoro";
@@ -27,42 +27,63 @@ function App() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shorts, longs]);
-
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => {
+    if (theme === "light") setTheme("dark");
+    else if (theme === "dark") setTheme("light");
+  };
   return (
-    <div className="container">
+    <div className={`container ${theme === "dark" ? "dark" : ""}`}>
       <h1>pomodoro</h1>
       <small>Be productive the right way.</small>
-      {console.log("po " + pomodoro)}
+      <Buttons
+        title={`${theme === "dark" ? "Dark" : "Light"}`}
+        activeClass={`themechanger ${theme === "dark" ? "dark" : ""}`}
+        _callback={toggleTheme}
+      />
       {pomodoro === 0 ? (
         <SetPomodoro />
       ) : (
         <>
-          <ul className="labels">
-            <li>
-              <Buttons
-                title="Work"
-                activeClass={executing.active === "work" ? "active-label" : ""}
-                _callback={() => setCurrentTimer("work")}
-              />
-            </li>
+          <ul className={`labels ${theme === "dark" ? "dark" : ""}`}>
             <li>
               <Buttons
                 title="Short Break"
-                activeClass={executing.active === "short" ? "active-label" : ""}
+                activeClass={`${
+                  executing.active === "short" ? "active-label" : ""
+                }
+                ${theme === "dark" ? "dark" : ""} `}
                 _callback={() => setCurrentTimer("short")}
               />
             </li>
             <li>
               <Buttons
+                title="Work"
+                activeClass={`${
+                  executing.active === "work" ? "active-label" : ""
+                }
+                ${theme === "dark" ? "dark" : ""} `}
+                _callback={() => setCurrentTimer("work")}
+              />
+            </li>
+            <li>
+              <Buttons
                 title="Long Break"
-                activeClass={executing.active === "long" ? "active-label" : ""}
+                activeClass={`${
+                  executing.active === "long" ? "active-label" : ""
+                }
+                ${theme === "dark" ? "dark" : ""} `}
                 _callback={() => setCurrentTimer("long")}
               />
             </li>
           </ul>
-          <Buttons title="Settings" _callback={settingBtn} />
+          <Buttons
+            title="Settings"
+            activeClass={`${theme === "dark" ? "dark" : ""}`}
+            _callback={settingBtn}
+          />
           <div className="time-container">
-            <div className="time-wrapper">
+            <div className={`time-wrapper ${theme === "dark" ? "dark" : ""}`}>
               <CoundownAnimation
                 key1={pomodoro}
                 timer={pomodoro}
@@ -76,12 +97,16 @@ function App() {
           <div className="button-wrapper">
             <Buttons
               title="Start"
-              activeClass={startAnimate === true ? "start" : ""}
+              activeClass={`${startAnimate === true ? "start" : ""} ${
+                theme === "dark" ? "dark" : ""
+              }`}
               _callback={startTimer}
             />
             <Buttons
               title="Pause"
-              activeClass={!startAnimate === true ? "pause" : ""}
+              activeClass={`${!startAnimate === true ? "pause" : ""} ${
+                theme === "dark" ? "dark" : ""
+              }`}
               _callback={pauseTimer}
             />
             <Buttons
